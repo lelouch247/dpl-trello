@@ -37,7 +37,10 @@ class Api::CheckListsController < ApplicationController
   end
 
   def check_list_params
-    params.require(:check_list).permit!
+    params.require(:check_list).permit(:name).tap do |wl|
+      wl[:items] = params[:checklist].fetch(:items,
+      ActionControlller::Parameters.new).permit!
+    end
   end
 
 end
